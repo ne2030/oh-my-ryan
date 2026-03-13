@@ -1,0 +1,29 @@
+# 분석 데이터 (개인 인사이트)
+insights/sources/*
+!insights/sources/.gitkeep
+insights/analysis/*
+!insights/analysis/.gitkeep
+insights/repos/
+insights/assets/*
+!insights/assets/.gitkeep
+insights/index.md
+insights/_tags.md
+
+# 레포 분석 스킬 (아직 미공개)
+skills/analyze-repo/
+
+# Obsidian
+.obsidian/
+
+# oh-my-claudecode 내부 상태
+.omc/
+
+# Claude Code 로컬 설정
+.claude/settings.local.json
+
+# macOS
+.DS_Store
+
+# 임시 파일
+resources/*
+!resources/.gitkeep
