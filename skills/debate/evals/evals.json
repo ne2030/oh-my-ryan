@@ -1,0 +1,55 @@
+{
+  "skill_name": "debate",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/debate \"탭 vs 스페이스\"",
+      "expected_output": "복잡도 1-2, 라운드 2-3, 디베이트 형식 선택, 수렴 도달",
+      "expectations": [
+        "insights/debates/ 디렉토리에 .md 파일이 생성됨",
+        "파일명이 YYYY-MM-DD-*.md 패턴을 따름",
+        "frontmatter에 debate_format 필드 포함",
+        "frontmatter에 participants 배열 포함 (최소 2개 모델)",
+        "frontmatter에 complexity 필드가 1 또는 2",
+        "frontmatter에 skill: debate 포함",
+        "frontmatter에 skill_version 정수값 포함",
+        "frontmatter에 eval_scores 객체 포함 (5개 항목)",
+        "'결론' 섹션이 존재하고 2문장 이상",
+        "'핵심 근거' 섹션이 존재하고 번호 리스트 포함",
+        "'합의 & 이견' 섹션에 테이블이 존재하고 참여자별 입장 포함",
+        "'토론 기록' 섹션에 최소 2개 라운드 기록",
+        "각 라운드에 '라운드 소결' 소섹션 존재"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "/debate \"AGI는 의식을 가질 수 있는가\"",
+      "expected_output": "복잡도 4-5, 라운드 4-5, 라운드테이블 또는 소크라테스 형식",
+      "expectations": [
+        "insights/debates/ 디렉토리에 .md 파일이 생성됨",
+        "frontmatter에 complexity 필드가 4 또는 5",
+        "frontmatter에 rounds 필드가 3 이상",
+        "frontmatter에 skill: debate, skill_version, eval_scores 포함",
+        "'결론' 섹션에서 토론 기록의 논점이 반영됨",
+        "'핵심 근거' 섹션에 3개 이상 논점",
+        "'합의 & 이견' 테이블에 '이견' 상태 논점이 최소 1개 존재",
+        "'토론 기록'에 라운드별 참여자 발언이 모두 기록됨",
+        "각 참여자 발언이 서로 다른 관점을 제시 (동일 내용 반복이 아님)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "/debate \"모노레포 vs 멀티레포\" --format debate --max-rounds 3",
+      "expected_output": "디베이트 형식 강제, 3라운드, 찬반 배정",
+      "expectations": [
+        "insights/debates/ 디렉토리에 .md 파일이 생성됨",
+        "frontmatter에 debate_format이 디베이트 또는 debate",
+        "frontmatter에 rounds 필드가 3",
+        "'토론 기록'에서 참여자가 찬성/반대 진영으로 나뉘어 발언",
+        "라운드 1에서 각 진영의 입론이 제시됨",
+        "라운드 2에서 상대 입론에 대한 반론이 포함됨",
+        "frontmatter에 skill: debate, eval_scores 포함"
+      ]
+    }
+  ]
+}
