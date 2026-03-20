@@ -21,6 +21,9 @@ skills/analyze-repo/
 # Claude Code 로컬 설정
 .claude/settings.local.json
 
+# 분석 대상 레포 원본
+repos/
+
 # macOS
 .DS_Store
 

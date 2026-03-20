@@ -8,7 +8,11 @@ tags: []
 analysis_depth:      # A | B | C
 analysis_lenses: []  # technical | process | org-culture | cognitive
 harness_applicable:
+read_status: unread    # unread | reading | read
 source_ref: ""       # [[insights/sources/소스노트명]]
+skill: ""              # analyze-source | analyze-repo
+skill_version:         # 생성 시점의 스킬 버전 (정수)
+eval_scores: {}        # 자가평가 점수 (항목별)
 ---
 
 ## 라우팅 판단 기록
@@ -75,3 +79,11 @@ source_ref: ""       # [[insights/sources/소스노트명]]
 - **적용 영역**:
 - **방향**:
 - **참고**:
+
+## 독자 코멘트
+
+> [!me]
+> (여기에 자유롭게 작성)
+
+> [!ai]
+> (/reflect 스킬이 작성)

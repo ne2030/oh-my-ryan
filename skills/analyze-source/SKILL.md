@@ -1,6 +1,7 @@
 ---
 name: analyze-source
 description: resources/ 폴더의 소스(텍스트, 스크린샷, 링크)를 분석하여 구조화된 소스 노트 + 분석 노트를 생성한다
+version: 1
 ---
 
 # analyze-source
@@ -99,12 +100,21 @@ frontmatter 필드:
 
 **wiki link 규칙**: 항상 전체 경로 사용 `[[insights/sources/파일명|표시명]]`
 
+**메타데이터 기록**: 분석 노트 frontmatter에 아래를 반드시 포함한다:
+- `skill: analyze-source`
+- `skill_version`: 이 스킬의 현재 `version` 값 (frontmatter에서 읽기)
+- `eval_scores`: Step 자체 평가에서 산출된 항목별 점수를 기록 (예: `{인사이트_유용성: 4, 계층_분류: 3, 실행_가능성: 4, 근거_충분성: 3, 연결_의미성: 4}`)
+- `read_status: unread`
+
+**독자 코멘트 섹션**: 분석 노트 본문 마지막(하네스 적용 제안 뒤)에 빈 `## 독자 코멘트` 섹션을 추가한다. 템플릿 참조.
+
 ## Step 6: 정리
 
 - **텍스트/링크 소스**: 분석 완료된 원본 파일을 `resources/` 에서 삭제
 - **이미지 소스**: `resources/`에서 `insights/assets/`로 이동 (삭제하지 않음). 소스 노트의 이미지 링크가 `insights/assets/` 경로를 가리키도록 작성
 - `insights/index.md` 에 새 분석 노트 항목 추가
 - 기존 분석 노트 중 관련 노트 섹션 업데이트가 필요한 것이 있으면 역방향 링크 추가
+- `insights/_quality/tracker.md` 에 새 분석 노트의 품질 데이터 행 추가 (파일명, 스킬, 버전, 각 항목별 점수, 평균, 날짜)
 
 ## 자체 평가
 
@@ -119,3 +129,5 @@ frontmatter 필드:
 | 연결 의미성 | 관련 노트 연결이 실질적 의미가 있는가 |
 
 평균 3.5 미만이면 보완 후 재평가한다.
+
+평가 점수를 분석 노트 frontmatter의 `eval_scores`에 기록한다.
