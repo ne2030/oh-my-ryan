@@ -1,0 +1,20 @@
+# Obsidian vault config
+.obsidian/
+
+# oh-my-claudecode 내부 상태
+.omc/
+.omx/
+
+# Claude Code 로컬 설정
+.claude/settings.local.json
+
+# 에셋
+insights/assets/*
+!insights/assets/.gitkeep
+
+# 임시 입력 파일
+resources/*
+!resources/.gitkeep
+
+# macOS
+.DS_Store

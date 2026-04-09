@@ -1,0 +1,60 @@
+{
+  "skill_name": "analyze-source",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/analyze-source resources/sample-linkedin-post.md",
+      "expected_output": "소스 노트(insights/sources/) + 분석 노트(insights/analysis/) 생성, 라우팅 판단 포함",
+      "files": ["evals/files/sample-linkedin-post.md"],
+      "expectations": [
+        "소스 노트가 insights/sources/ 디렉토리에 .md 파일로 생성됨",
+        "소스 노트 파일명이 YYYY-MM-DD-저자명-핵심키워드.md 패턴을 따름",
+        "소스 노트 frontmatter에 source_type, source_url, author, date_collected 필드 포함",
+        "분석 노트가 insights/analysis/ 디렉토리에 .md 파일로 생성됨",
+        "분석 노트 frontmatter에 skill: analyze-source 포함",
+        "분석 노트 frontmatter에 skill_version 정수값 포함",
+        "분석 노트 frontmatter에 eval_scores 객체 포함",
+        "분석 노트에 '라우팅 판단 기록' 섹션이 존재하고 깊이 추천(A/B/C)과 근거가 기록됨",
+        "분석 노트에 '핵심 인사이트' 섹션이 존재하고 원칙/사례/프레임 3계층 중 최소 2개 구분 존재",
+        "분석 노트에 '관련 노트' 섹션이 존재하고 최소 1개 wikilink([[...]]) 포함",
+        "insights/index.md에 새 분석 노트 항목이 추가됨",
+        "insights/_quality/tracker.md에 새 행이 추가됨",
+        "원본 소스 파일이 resources/ 에서 삭제됨"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "/analyze-source resources/sample-screenshot.png",
+      "expected_output": "스크린샷 OCR 후 소스 노트 + 분석 노트 생성, 이미지가 insights/assets/로 이동",
+      "files": ["evals/files/sample-screenshot.png"],
+      "expectations": [
+        "OCR이 실행되어 텍스트가 추출됨 (scripts/ocr.swift 사용)",
+        "소스 노트가 insights/sources/ 에 생성됨",
+        "소스 노트에 이미지 링크가 insights/assets/ 경로를 가리킴",
+        "분석 노트가 insights/analysis/ 에 생성됨",
+        "분석 노트 frontmatter에 skill: analyze-source, skill_version, eval_scores 포함",
+        "분석 노트에 '핵심 인사이트' 섹션 존재",
+        "원본 이미지가 insights/assets/ 로 이동됨 (삭제되지 않음)",
+        "insights/_quality/tracker.md에 새 행 추가됨"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "/analyze-source resources/sample-deep-analysis.md",
+      "expected_output": "C 깊이 분석: 소스 노트 + 분석 노트 + 추가 리서치 포함",
+      "files": ["evals/files/sample-deep-analysis.md"],
+      "expectations": [
+        "라우팅 판단에서 B 또는 C 깊이가 선택됨 (수치 주장이 포함된 소스이므로)",
+        "소스 노트가 insights/sources/ 에 생성됨",
+        "분석 노트가 insights/analysis/ 에 생성됨",
+        "분석 노트 frontmatter에 skill: analyze-source, skill_version, eval_scores 포함",
+        "분석 노트에 '근거 및 출처' 섹션이 존재하고 URL(https://) 또는 검증 가능한 출처 식별자가 포함됨",
+        "분석 노트에 '핵심 인사이트' 섹션에서 원칙/사례/프레임 구분 존재",
+        "분석 노트에 '분석자 코멘트' 섹션 존재",
+        "분석 노트의 '비판적 관점' 섹션 내 수치 인용에 출처(URL, 출처명, 또는 논리적 근거)가 포함됨",
+        "insights/index.md에 새 노트 항목 추가됨",
+        "insights/_quality/tracker.md에 새 행 추가됨"
+      ]
+    }
+  ]
+}

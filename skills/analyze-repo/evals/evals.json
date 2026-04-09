@@ -1,0 +1,43 @@
+{
+  "skill_name": "analyze-repo",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/analyze-repo https://github.com/anthropics/claude-code",
+      "expected_output": "소스 노트 + DNA 4개 컴포넌트 파일 + 요약 분석 노트 + 카탈로그 등록",
+      "files": [],
+      "expectations": [
+        "소스 노트가 insights/sources/{project}-repo.md 형태로 생성됨",
+        "소스 노트 frontmatter에 source_type: repo, source_url, project_name, commit_hash 포함",
+        "insights/repos/{project}/philosophy.md 파일 생성됨",
+        "insights/repos/{project}/patterns.md 파일 생성됨",
+        "insights/repos/{project}/feature-map.md 파일 생성됨",
+        "insights/repos/{project}/tradeoffs.md 파일 생성됨",
+        "각 DNA 파일에 구현 위치(파일 경로)가 포함됨",
+        "DNA 파일 간 교차 wikilink가 존재함",
+        "요약 분석 노트가 insights/analysis/{project}-repo-analysis.md로 생성됨",
+        "요약 분석 노트 frontmatter에 skill: analyze-repo, skill_version, eval_scores 포함",
+        "요약 분석 노트에 각 DNA 컴포넌트로의 wikilink 포함",
+        "요약 분석 노트에 '하네스 시사점' 섹션 존재",
+        "insights/catalogs/patterns.md에 새 패턴 등록됨",
+        "insights/index.md에 새 분석 노트 항목 추가됨 (깊이: DNA)",
+        "insights/_quality/tracker.md에 새 행 추가됨"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "/analyze-repo /tmp/sample-local-repo",
+      "expected_output": "로컬 경로 레포 분석: DNA 4개 컴포넌트 + 요약 + 카탈로그",
+      "files": [],
+      "expectations": [
+        "로컬 경로가 그대로 사용됨 (clone 없이)",
+        "소스 노트가 insights/sources/ 에 생성됨",
+        "DNA 4개 컴포넌트 파일이 insights/repos/{project}/ 에 생성됨",
+        "요약 분석 노트가 insights/analysis/ 에 생성됨",
+        "요약 분석 노트 frontmatter에 skill: analyze-repo, skill_version, eval_scores 포함",
+        "각 패턴에 구현 위치(파일 경로)가 구체적으로 기술됨",
+        "insights/_quality/tracker.md에 새 행 추가됨"
+      ]
+    }
+  ]
+}
