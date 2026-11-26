@@ -18,6 +18,8 @@
 
 | 스킬 | 역할 |
 |---|---|
+| `rg-visual-explainer` | 개념·원인·아키텍처·흐름을 SVG 도식으로 시각화 (1장면 콘티 + 문제/해결 분리 + 자동 린트, v1.2.0) |
+| `rg-explain-html` | 이슈·개념·아키텍처·비교를 한눈에 이해되는 설명용 HTML 페이지로 작성 (`rg-visual-explainer` 연동, v1.1.0) |
 | `analyze-source` | 텍스트·이미지·URL 소스를 구조화된 분석 노트로 변환 (트랙 라우팅 + 범용 루브릭) |
 | `analyze-repo` | Git 저장소의 설계 DNA를 4개 컴포넌트로 추출 |
 | `debate` | Claude·Gemini·Codex 멀티 AI 토론 엔진 |
@@ -28,7 +30,7 @@
 
 ```
 oh-my-ryan/
-├── skills/               # Claude Code 스킬 (analyze-source, analyze-repo, debate, reflect, self-improve)
+├── skills/               # AI 에이전트 스킬 (rg-visual-explainer, rg-explain-html, analyze-source, analyze-repo, debate, reflect, self-improve)
 ├── insights/
 │   ├── sources/          # 원본 소스 노트
 │   ├── analysis/
@@ -42,6 +44,22 @@ oh-my-ryan/
 ```
 
 ## 빠른 시작
+
+### 시각화 · 설명용 HTML 스킬만 설치하기
+
+사용 중인 AI 에이전트(Claude Code, Codex, Cursor, Antigravity 등)에 아래 프롬프트를 그대로 붙여넣으면 됩니다:
+
+```text
+https://github.com/ne2030/oh-my-ryan 의 `skills/rg-visual-explainer` 스킬을 설치하고 싶어.
+
+설치하기 전에 먼저 아래 2가지를 나에게 물어보고 선택을 받아줘:
+1. 전역으로 설치할지, 현재 프로젝트에만 설치할지
+2. 설명용 HTML 문서 스킬(`skills/rg-explain-html`)도 같이 설치할지, `rg-visual-explainer`만 설치할지
+
+선택을 받으면 현재 사용 중인 AI 에이전트의 스킬 경로와 규격에 맞게 설치하고, 정상 인식 여부와 검증 스크립트(`lint-visuals.mjs`, `check-html.mjs`) 실행 여부를 확인해줘.
+```
+
+### 인사이트 분석 워크플로우
 
 ```bash
 # 1. 소스 파일을 resources/ 에 넣기 (텍스트/이미지/URL)
