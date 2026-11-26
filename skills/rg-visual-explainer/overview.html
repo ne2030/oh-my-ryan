@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>rg-visual-explainer 스킬 구성도 (v1.2.0)</title>
+  <title>rg-visual-explainer 스킬 구성도 (v1.3.0)</title>
   <style>
     :root {
       --ink: #37352f;
@@ -120,9 +120,9 @@
   <header>
     <div class="eyebrow">Skill Architecture Overview</div>
     <h1>rg-visual-explainer 스킬 구성도</h1>
-    <p class="lede">그리기 전에 <strong>인과 완결·배경 보완(0절)</strong>을 먼저 점검하고, <strong>1장면 콘티(<code>&lt;desc&gt;</code>) · 문제/해결 분리 · 다중 원인 분해(1절)</strong>로 조립한 뒤, 자동 린트와 <strong>독자 반문 테스트(8번 게이트)</strong>로 검수하는 모듈형 시각화 스킬입니다.</p>
+    <p class="lede"><strong>공통 기본 원칙</strong>(조건부 1턴 인터뷰·독자 기준 번역·1장면 콘티 <code>&lt;desc&gt;</code>·디폴트 퀄리티+톤 변주)과 <strong>유형별 적용 규칙</strong>(원인 해부 / 시스템·아키텍처 / 수치·비교)을 2계층으로 분리하고, 자동 린트와 <strong>7대 검수 게이트</strong>로 마감하는 범용 시각화 스킬입니다.</p>
     <div class="meta-strip">
-      <span class="meta-pill">버전: <strong>1.2.0</strong></span>
+      <span class="meta-pill">버전: <strong>1.3.0</strong></span>
       <span class="meta-pill">관리 원본: <code>skills/rg-visual-explainer/</code></span>
       <span class="meta-pill">설치기: <code>scripts/install-rg-visual-explainer.mjs</code></span>
       <span class="meta-pill">배포 대상: <code>~/.codex/skills</code> · <code>~/.claude/skills</code></span>
@@ -146,7 +146,7 @@
           </marker>
         </defs>
 
-        <text x="16" y="22" font-size="14" font-weight="700" fill="#37352f">저장소 관리 원본 (skills/rg-visual-explainer/)</text>
+        <text x="16" y="22" font-size="14" font-weight="700" fill="#37352f">저장소 원본 (skills/)</text>
         <text x="456" y="22" font-size="14" font-weight="700" fill="#2f6ba3" text-anchor="middle">전용 설치기</text>
         <text x="576" y="22" font-size="14" font-weight="700" fill="#2f6f4d">전역 설치본 (in-sync 검증)</text>
 
@@ -160,14 +160,14 @@
 
         <rect x="184" y="68" width="148" height="34" rx="5" fill="#ffffff" stroke="#2f6ba3"/>
         <text x="194" y="89" font-size="13.5" font-weight="700" fill="#37352f">core.md</text>
-        <text x="260" y="89" font-size="12" fill="#6b6862">0~5절 원칙</text>
+        <text x="260" y="89" font-size="12" fill="#6b6862">2계층 원칙</text>
 
         <rect x="30" y="112" width="302" height="34" rx="5" fill="#ffffff" stroke="#b9c7d8"/>
         <text x="40" y="133" font-size="13" font-weight="600" fill="#37352f">references/visual-gate.md</text>
-        <text x="242" y="133" font-size="12" fill="#6b6862">8항목 검수표</text>
+        <text x="242" y="133" font-size="12" fill="#6b6862">7대 게이트</text>
 
         <rect x="30" y="156" width="302" height="34" rx="5" fill="#ffffff" stroke="#b9c7d8"/>
-        <text x="40" y="177" font-size="13" font-weight="600" fill="#37352f">scripts/lint-visuals · read · measure</text>
+        <text x="40" y="177" font-size="13" font-weight="600" fill="#37352f">scripts/ lint·read·measure</text>
         <text x="262" y="177" font-size="12" fill="#6b6862">보조 도구</text>
 
         <rect x="30" y="200" width="174" height="34" rx="5" fill="#ffffff" stroke="#b9c7d8"/>
@@ -179,7 +179,7 @@
         <!-- Evals Area -->
         <rect x="16" y="272" width="330" height="76" rx="8" fill="#fdf8ee" stroke="#8a5a18" stroke-dasharray="5 4"/>
         <text x="30" y="294" font-size="13.5" font-weight="700" fill="#8a5a18">evals/ (저장소 전용 · 배포 제외)</text>
-        <text x="30" y="316" font-size="13" fill="#57554f">feedback-index.json · cases/bad · cases/good</text>
+        <text x="30" y="316" font-size="13" fill="#57554f">feedback-index · cases/</text>
         <text x="30" y="336" font-size="12.5" fill="#8a5a18">실패·성공 사례와 회귀 이력 보존</text>
 
         <!-- Installer Node -->
@@ -193,11 +193,11 @@
         <!-- Global Targets -->
         <rect x="576" y="66" width="272" height="68" rx="8" fill="#eef6f1" stroke="#2f6f4d" stroke-width="1.5"/>
         <text x="592" y="92" font-size="14" font-weight="700" fill="#2f6f4d">~/.codex/skills/</text>
-        <text x="592" y="114" font-size="12" fill="#37352f">rg-visual-explainer · INSTALLATION.json</text>
+        <text x="592" y="114" font-size="12" fill="#37352f">스킬 + INSTALLATION.json</text>
 
         <rect x="576" y="154" width="272" height="68" rx="8" fill="#eef6f1" stroke="#2f6f4d" stroke-width="1.5"/>
         <text x="592" y="180" font-size="14" font-weight="700" fill="#2f6f4d">~/.claude/skills/</text>
-        <text x="592" y="202" font-size="12" fill="#37352f">rg-visual-explainer · INSTALLATION.json</text>
+        <text x="592" y="202" font-size="12" fill="#37352f">스킬 + INSTALLATION.json</text>
 
         <path d="M530 143 H554 V100 H570" fill="none" stroke="#2f6f4d" stroke-width="1.8" marker-end="url(#arr-g)"/>
         <path d="M530 143 H554 V188 H570" fill="none" stroke="#2f6f4d" stroke-width="1.8" marker-end="url(#arr-g)"/>
@@ -211,13 +211,13 @@
   </section>
 
   <section id="sec-pipeline">
-    <h2>2. 실행 워크플로우: 인과 완결 점검 → 콘티 설계 → 8항목 검수 루프</h2>
-    <p><code>0.9.0</code>부터는 도형을 배치하기 전에 <strong>1단계에서 인과 고리와 독자 언어 번역을 먼저 확인</strong>합니다. 그다음 <code>&lt;desc&gt;</code> 콘티를 짜고 글+그림 세트를 조립한 뒤, 실제 렌더링 스크린샷으로 <strong>충돌 0건 + 독자 반문 테스트(8번 게이트)</strong>를 통과해야 완료됩니다.</p>
+    <h2>2. 실행 워크플로우: 목적·독자 점검 → 콘티 설계 → 7대 게이트 검수 루프</h2>
+    <p>도형을 배치하기 전에 <strong>1단계에서 목적·독자·톤(모호할 때만 1턴 인터뷰)과 인과·전제</strong>를 먼저 확인합니다. 그다음 <code>&lt;desc&gt;</code> 1장면 콘티와 유형별 규칙으로 조립한 뒤, 자동 린트와 렌더링 스크린샷으로 <strong>충돌 0건 + 7대 게이트(독자 반문 테스트 포함)</strong>를 통과해야 완료됩니다.</p>
 
     <figure>
       <svg viewBox="0 0 860 280" role="img" aria-labelledby="f2-t f2-d">
-        <title id="f2-t">rg-visual-explainer 5단계 실행 및 8항목 자가 검수 루프</title>
-        <desc id="f2-d">왼쪽부터 1 인과 완결 점검, 2 시각 콘티 desc 설계, 3 글과 그림 조립, 4 브라우저 렌더 캡처, 5 8항목 및 독자 반문 검수의 다섯 단계가 이어진다. 5단계에서 충돌이나 독자 반문이 발생하면 3단계로 되돌아가는 수정 루프가 아래로 연결된다.</desc>
+        <title id="f2-t">rg-visual-explainer 5단계 실행 및 7대 게이트 자가 검수 루프</title>
+        <desc id="f2-d">왼쪽부터 1 목적·독자 점검, 2 1장면 콘티 desc 설계, 3 글과 그림 조립, 4 린트·렌더 캡처, 5 7대 게이트 검수의 다섯 단계가 이어진다. 5단계에서 충돌이나 독자 반문이 발생하면 3단계로 되돌아가는 수정 루프가 아래로 연결된다.</desc>
         <defs>
           <marker id="p-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
             <path d="M0,0 L10,5 L0,10 Z" fill="#6b6862"/>
@@ -272,7 +272,7 @@
         <rect x="696" y="34" width="150" height="122" rx="8" fill="#eef6f1" stroke="#2f6f4d" stroke-width="1.6"/>
         <circle cx="716" cy="56" r="11" fill="#2f6f4d"/>
         <text x="716" y="60" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
-        <text x="734" y="61" font-size="14" font-weight="700" fill="#2f6f4d">8항목 검수</text>
+        <text x="734" y="61" font-size="14" font-weight="700" fill="#2f6f4d">7대 게이트</text>
         <text x="708" y="88" font-size="12.5" fill="#37352f">충돌 0건 · 의미 색</text>
         <text x="708" y="108" font-size="12.5" fill="#37352f">독자 반문 테스트</text>
         <text x="708" y="128" font-size="12.5" fill="#2f6f4d" font-weight="700">✓ 통과 시 최종 완료</text>
@@ -288,7 +288,7 @@
 
         <text x="210" y="226" font-size="12.5" fill="#6b6862" text-anchor="middle">포맷만 깔끔해도 독자 반문에 걸리면 불합격</text>
       </svg>
-      <figcaption>시각화 품질은 포맷 정돈뿐 아니라 <code>0절 인과 완결 점검</code>과 <code>8번 독자 반문 테스트</code>가 앞뒤를 잡아 줄 때 완성됩니다.</figcaption>
+      <figcaption>시각화 품질은 포맷 정돈뿐 아니라 <code>0절 독자 납득·조건부 인터뷰</code>와 <code>7대 검수 게이트(독자 반문 테스트)</code>가 앞뒤를 잡아 줄 때 완성됩니다.</figcaption>
     </figure>
   </section>
 
@@ -305,7 +305,7 @@
         <text x="16" y="24" font-size="15" font-weight="700" fill="#b3352b">✕ 금지: 3대 실패 패턴</text>
         <rect x="16" y="38" width="320" height="70" rx="7" fill="#fdf2f1" stroke="#b3352b" stroke-width="1.3" stroke-dasharray="5 4"/>
         <text x="30" y="62" font-size="13.5" font-weight="700" fill="#b3352b">1. 장식용 래퍼 중첩 · 문장 박스</text>
-        <text x="30" y="84" font-size="12.5" fill="#57554f">의미 없는 3중 테두리 안에 긴 서술 문장 가두기</text>
+        <text x="30" y="84" font-size="12.5" fill="#57554f">3중 테두리 안에 긴 문장 가두기</text>
 
         <rect x="16" y="120" width="320" height="70" rx="7" fill="#fdf2f1" stroke="#b3352b" stroke-width="1.3" stroke-dasharray="5 4"/>
         <text x="30" y="144" font-size="13.5" font-weight="700" fill="#b3352b">2. 공용 템플릿 대량 찍어내기</text>
@@ -313,12 +313,12 @@
 
         <rect x="16" y="202" width="320" height="70" rx="7" fill="#fdf2f1" stroke="#b3352b" stroke-width="1.3" stroke-dasharray="5 4"/>
         <text x="30" y="226" font-size="13.5" font-weight="700" fill="#b3352b">3. 인과 고리 생략 · 내부 용어 투척</text>
-        <text x="30" y="248" font-size="12.5" fill="#57554f">"A가 없다"로 끝내 독자가 "뭐 어쩌라고?" 반문</text>
+        <text x="30" y="248" font-size="12.5" fill="#57554f">중간 인과 생략으로 독자 반문 유발</text>
 
         <line x1="364" y1="20" x2="364" y2="280" stroke="#e6e5e1" stroke-width="1.2"/>
 
         <!-- Right: v0.9 Composable Building Blocks -->
-        <text x="392" y="24" font-size="15" font-weight="700" fill="#2f6f4d">✓ v0.9: 인과 완결 위의 장면·구조 자유 합성</text>
+        <text x="392" y="24" font-size="15" font-weight="700" fill="#2f6f4d">✓ 인과 완결 + 장면·구조 자유 합성</text>
 
         <rect x="392" y="42" width="144" height="106" rx="7" fill="#f3efe6" stroke="#c8c1b2"/>
         <polygon points="392,148 392,118 456,96 536,78 536,148" fill="#dfd7c4"/>
@@ -347,21 +347,21 @@
         <text x="779" y="183" font-size="12" fill="#6b6862" text-anchor="middle">코드 결함·수치·집합</text>
 
         <rect x="392" y="208" width="454" height="66" rx="8" fill="#eef6f1" stroke="#2f6f4d"/>
-        <text x="410" y="234" font-size="14" font-weight="700" fill="#2f6f4d">인과 고리 + 자유 합성 (Causal-First Hybrid)</text>
-        <text x="410" y="256" font-size="13" fill="#37352f">정상 의도 vs 오발을 쉬운 언어로 대비하고, 필요하면 장면+제어를 결합</text>
+        <text x="410" y="234" font-size="14" font-weight="700" fill="#2f6f4d">인과 완결 + 자유 합성</text>
+        <text x="410" y="256" font-size="13" fill="#37352f">쉬운 언어로 대비하고 장면·제어를 자유 결합</text>
       </svg>
       <figcaption>형식 정돈(래퍼·찍어내기 금지)과 내용 납득(인과 고리·독자 언어 번역)을 함께 세워 "깔끔하지만 이해 안 되는 그림"을 막습니다.</figcaption>
     </figure>
   </section>
 
   <section id="sec-evolution">
-    <h2>4. 버전 진화 이력 (0.1.0 → 1.2.0)</h2>
-    <p>실패 사례(<code>BAD-001~005</code>), 블라인드 Claude 평가, 그리고 실전 보드(<code>127.0.0.1:4418</code>) 피드백을 바탕으로 단계적으로 진화했습니다.</p>
+    <h2>4. 버전 진화 이력 (0.1.0 → 1.3.0)</h2>
+    <p>실패 사례(<code>BAD-001~005</code>), 블라인드 Claude·Gemini 평가, 포트폴리오·이슈 보드 실전 테스트 피드백을 바탕으로 단계적으로 진화했습니다.</p>
 
     <figure>
       <svg viewBox="0 0 860 190" role="img" aria-labelledby="f4-t f4-d">
         <title id="f4-t">rg-visual-explainer 버전 진화 타임라인</title>
-        <desc id="f4-d">왼쪽부터 0.1~0.4 초기 규칙과 문장 분리, 0.5 다중 원인 분리, 0.6 사각형 고정 해제, 0.7 콘티 우선 자유 합성, 0.8 대량 찍어내기 금지, 0.9 인과 완결과 독자 반문 게이트까지 여섯 단계가 가로 타임라인으로 이어진다.</desc>
+        <desc id="f4-d">왼쪽부터 0.1~0.4 초기 규칙과 문장 분리, 0.5 다중 원인 분리, 0.6 사각형 고정 해제, 0.7 콘티 우선 자유 합성, 0.8~1.2 찍어내기 금지와 문제·해결 분리, 1.3 2계층 범용화와 조건부 인터뷰·톤 변주까지 여섯 단계가 가로 타임라인으로 이어진다.</desc>
 
         <line x1="60" y1="62" x2="800" y2="62" stroke="#d3d1cb" stroke-width="2.5"/>
 
@@ -386,22 +386,22 @@
         <text x="504" y="114" font-size="11.5" fill="#6b6862" text-anchor="middle">장면·미니UI 결합</text>
 
         <circle cx="652" cy="62" r="8" fill="#8a5a18"/>
-        <text x="652" y="38" font-size="13" font-weight="700" fill="#8a5a18" text-anchor="middle">0.8.0</text>
-        <text x="652" y="94" font-size="12.5" font-weight="700" fill="#37352f" text-anchor="middle">찍어내기 금지</text>
-        <text x="652" y="114" font-size="11.5" fill="#6b6862" text-anchor="middle">소규모 배치 검수</text>
+        <text x="652" y="38" font-size="13" font-weight="700" fill="#8a5a18" text-anchor="middle">0.8 ~ 1.2</text>
+        <text x="652" y="94" font-size="12.5" font-weight="700" fill="#37352f" text-anchor="middle">인과·문제 분리</text>
+        <text x="652" y="114" font-size="11.5" fill="#6b6862" text-anchor="middle">찍어내기 금지</text>
 
         <circle cx="800" cy="62" r="10" fill="#2f6f4d"/>
-        <text x="800" y="36" font-size="13.5" font-weight="700" fill="#2f6f4d" text-anchor="middle">1.2.0 (현재)</text>
-        <text x="800" y="94" font-size="13" font-weight="700" fill="#2f6f4d" text-anchor="middle">1장면·문제/해결 분리</text>
-        <text x="800" y="114" font-size="11.5" fill="#37352f" text-anchor="middle">다중원인 분해 복원</text>
-        <text x="800" y="132" font-size="11.5" fill="#2f6f4d" text-anchor="middle">전제 보완 · 빨강 절제</text>
+        <text x="800" y="36" font-size="13.5" font-weight="700" fill="#2f6f4d" text-anchor="middle">1.3.0 (현재)</text>
+        <text x="800" y="94" font-size="13" font-weight="700" fill="#2f6f4d" text-anchor="middle">2계층 범용화</text>
+        <text x="800" y="114" font-size="11.5" fill="#37352f" text-anchor="middle">공통+유형별 분리</text>
+        <text x="800" y="132" font-size="11.5" fill="#2f6f4d" text-anchor="middle">인터뷰 · 톤 변주</text>
       </svg>
-      <figcaption>시각 포맷 정돈(<code>0.1~0.5</code>) → 표현 자유 회복(<code>0.6~0.7</code>) → 실전 허점 차단과 설명 인과 완결(<code>0.8~0.9</code>) 순으로 발전했습니다.</figcaption>
+      <figcaption>시각 포맷 정돈(<code>0.1~0.5</code>) → 표현 자유 회복(<code>0.6~0.7</code>) → 인과 완결·문제 분리(<code>0.8~1.2</code>) → 공통·유형별 2계층 범용화(<code>1.3.0</code>) 순으로 발전했습니다.</figcaption>
     </figure>
   </section>
 
   <section id="sec-reference">
-    <h2>5. 파일별 역할 및 8대 검수 게이트 요약</h2>
+    <h2>5. 파일별 역할 및 7대 검수 게이트 요약</h2>
     <table>
       <thead>
         <tr>
@@ -414,17 +414,17 @@
         <tr>
           <td><code>SKILL.md</code></td>
           <td><span class="tag tag-blue">런타임</span></td>
-          <td>스킬 진입점. <code>0.9.1</code> 핵심 4단계 흐름과 <code>overview.html</code> 동시 갱신 규칙을 안내합니다.</td>
+          <td>스킬 진입점. <code>1.3.0</code> 2계층 핵심 흐름(공통 원칙 · 유형별 규칙 · 린트/검수)을 안내합니다.</td>
         </tr>
         <tr>
           <td><code>core.md</code></td>
           <td><span class="tag tag-blue">런타임</span></td>
-          <td>0절(인과 완결 3원칙) + 1~5절(콘티 우선 자유 합성, 대량 찍어내기 금지, 글/그림 분리, 래퍼 금지·내부 묘사 허용, 의미 색, 충돌 0건).</td>
+          <td>0절(조건부 1턴 인터뷰·독자 납득 3원칙) + 1절(1장면 콘티) + 1-B절(원인/시스템/수치 유형별 규칙) + 2~5절(역할 분리·디폴트+톤 변주·린트/렌더 검수).</td>
         </tr>
         <tr>
           <td><code>references/visual-gate.md</code></td>
           <td><span class="tag tag-blue">런타임</span></td>
-          <td>렌더 스크린샷을 보고 판정하는 8대 검수 게이트(1~7번 시각·포맷 기준 + 8번 독자 반문 테스트).</td>
+          <td>렌더 스크린샷을 보고 판정하는 7대 검수 게이트(충돌 0건, 글/그림 분리, 1장면 콘티, 유형별 규칙, 색 절제, 톤 일관성, 독자 반문 테스트).</td>
         </tr>
         <tr>
           <td><code>overview.html</code></td>
@@ -434,17 +434,17 @@
         <tr>
           <td><code>scripts/lint-visuals.mjs</code><br><code>scripts/read-patterns.mjs</code><br><code>scripts/measure-figures.js</code></td>
           <td><span class="tag tag-blue">런타임</span></td>
-          <td>SVG 긴 문장·플레이스홀더·<code>&lt;desc&gt;</code> 누락 자동 린트, 색상·타이포 기준 조회, 브라우저 DOM 충돌 측정 도구.</td>
+          <td>SVG 긴 문장·플레이스홀더·<code>&lt;desc&gt;</code> 누락 자동 린트, 디폴트 색상·타이포 기준 조회, 브라우저 DOM 충돌 측정 도구.</td>
         </tr>
         <tr>
           <td><code>assets/pattern-library.json</code></td>
           <td><span class="tag tag-blue">런타임</span></td>
-          <td>기본 팔레트, 타이포 크기, 시각 구성요소 참조 데이터.</td>
+          <td>검증된 기본 팔레트, 타이포 크기, 시각 구성요소 참조 데이터(문서 맥락에 맞춰 변주 가능).</td>
         </tr>
         <tr>
           <td><code>version.json</code></td>
           <td><span class="tag tag-green">버전</span></td>
-          <td>배포 판본 메타데이터(<code>1.2.0</code>). 설치기가 이 버전과 해시를 영수증에 기록합니다.</td>
+          <td>배포 판본 메타데이터(<code>1.3.0</code>). 설치기가 이 버전과 해시를 영수증에 기록합니다.</td>
         </tr>
         <tr>
           <td><code>evals/feedback-index.json</code><br><code>evals/cases/{bad,good}/</code></td>
