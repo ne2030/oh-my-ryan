@@ -1,0 +1,4 @@
+interface:
+  display_name: "RG Explain HTML"
+  short_description: "Create visual-first explanatory HTML with rg-visual-explainer"
+  default_prompt: "Use $rg-explain-html: read core.md, ../rg-visual-explainer/core.md, ../rg-visual-explainer/references/visual-gate.md, and references/codex-guide.md, then build the explanatory HTML with bespoke inline SVGs and pass scripts/check-html.mjs."

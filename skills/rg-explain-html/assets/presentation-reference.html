@@ -1,0 +1,470 @@
+<!-- Presentation-only reference for rg-explain-html. Its metadata, document content, claims, status, and relations are not technical authority. -->
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>작업 준비 단계에서 의도와 계약의 원문을 전달한다</title>
+  <link rel="stylesheet" href="../../../docs/product/archdoc/00-start/archdoc-document.css">
+  <script id="archdoc-metadata" type="application/json">{
+  "document_id": "RFC-043",
+  "kind": "design-proposal",
+  "status": "proposed",
+  "authority": "proposal",
+  "owner": "product-owner",
+  "scope_id": "PROJ-WORKSPACE",
+  "work_id": "WORK-154",
+  "metadata_version": 1,
+  "created_at": "2026-09-08T06:45:09.919744Z",
+  "updated_at": "2026-09-09T16:55:45.586Z",
+  "relation_contract_version": 2,
+  "product_behavior_change": "changed",
+  "product_definition_basis": "PRD-001",
+  "reader_orientation": "required",
+  "concept_references": [
+    "execution-context"
+  ],
+  "relations": [
+    {
+      "type": "derives_from",
+      "to": "INT-006"
+    },
+    {
+      "type": "informed_by",
+      "to": "PD-002"
+    },
+    {
+      "type": "informed_by",
+      "to": "ARCH-003"
+    },
+    {
+      "type": "informed_by",
+      "to": "SPEC-026"
+    },
+    {
+      "type": "informed_by",
+      "to": "RFC-039"
+    }
+  ],
+  "color_roles": [
+    {
+      "color": "#1f5130",
+      "role": "preservation",
+      "description": "재사용할 기존 기능"
+    },
+    {
+      "color": "#7a4a05",
+      "role": "decision",
+      "description": "수정할 기존 기능"
+    },
+    {
+      "color": "#1c3f78",
+      "role": "design",
+      "description": "신설할 기능과 공통 읽기"
+    },
+    {
+      "color": "#f4f7fc",
+      "role": "design",
+      "description": "공통 모듈 영역 배경"
+    }
+  ]
+}</script>
+  <style id="archdoc-document-style">#archdoc-content{max-width:744px;margin:0 auto;padding:8px 0 96px;font-size:16px;line-height:1.65;color:#37352f;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",Inter,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+#archdoc-content h1{font-size:38px;line-height:1.2;font-weight:700;letter-spacing:-.022em;margin:0 0 18px}
+#archdoc-content .lede{font-size:17px;line-height:1.7;color:#4a4741;margin:0 0 8px;padding-bottom:22px;border-bottom:1px solid #e9e9e7}
+#archdoc-content h2{font-size:24px;line-height:1.35;font-weight:600;letter-spacing:-.012em;margin:52px 0 12px}
+#archdoc-content h3{font-size:17.5px;font-weight:600;margin:32px 0 8px}
+#archdoc-content p{margin:0 0 13px}
+#archdoc-content strong{font-weight:600}
+#archdoc-content em{font-style:normal;border-bottom:1px solid #d3d1cb}
+#archdoc-content table{width:100%;border-collapse:collapse;margin:20px 0 10px;font-size:14.5px;line-height:1.55}
+#archdoc-content th,#archdoc-content td{border:1px solid #e9e9e7;padding:9px 11px;text-align:left;vertical-align:top}
+#archdoc-content thead th{background:#f7f6f3;font-size:13.5px;font-weight:600}
+#archdoc-content tbody th{background:#fcfbf9;font-weight:600;width:170px}
+#archdoc-content th.axis{width:130px}
+#archdoc-content th.num{width:34px}
+#archdoc-content #tbl-edges td:first-child{width:34px;text-align:center;color:#6b6862;font-weight:600}
+#archdoc-content th.rec{color:#2f6ba3;border-bottom:2px solid #2f6ba3}
+#archdoc-content .tag{display:inline-block;font-size:11.5px;font-weight:600;color:#2f6ba3;border:1px solid #2f6ba3;border-radius:3px;padding:0 5px;margin-left:4px;vertical-align:1px}
+#archdoc-content figure{margin:26px 0 30px}
+#archdoc-content figure svg{display:block;width:100%;height:auto}
+#archdoc-content figcaption{font-size:13px;line-height:1.6;color:#6b6862;margin-top:11px}</style>
+</head>
+<body>
+  <main id="archdoc-content" class="archdoc-document archdoc-document-design-proposal">
+    <article class="col">
+      <h1>작업 준비 단계에서 의도와 계약의 원문을 전달한다</h1>
+      <p id="lede" class="lede">에이전트가 작업의 의도나 기존 계약을 놓친 사례가 있다. 관련 문서가 저장소에 있는데도 실제 작업 입력에는 빠지고, 경로·절 힌트만 전달된 채 본문 읽기로 이어지지 않는 <strong>단절</strong>이 확인됐다. 이 제안은 이미 있는 원문 읽기 기능을 <strong>작업 준비 경로 안에서</strong> 수행하게 하고, 그 결과에 의미 본문을 담아 작성·구현·검토 입력으로 넘긴다.</p>
+
+<section id="problem">
+  <h2 id="확인된-문제와-이번-해결-범위">확인된 문제와 이번 해결 범위</h2>
+  <p id="gap-observed">관찰된 것은 두 가지다. 문맥 조회 경로는 작업이 직접 지정한 입력, 상위 범위가 물려주는 문맥, 제한된 들어오는 관계만 모으고 <em>본문은 돌려주지 않는다</em>. 그리고 같은 작업이라도 어느 진입점으로 들어오느냐에 따라 보는 근거가 달라진다 — 문서 작성 직전 경로는 상위 의도와 제품 정의를 더 얹고, 독립 구현 검토 경로는 작업이 직접 선언한 필수 입력만 쓴다.</p>
+
+  <figure id="fig-entry">
+    <svg viewBox="0 0 760 210" role="img" aria-labelledby="fig-entry-title fig-entry-desc" preserveAspectRatio="xMidYMid meet">
+      <title id="fig-entry-title">세 진입 경로가 모으는 근거의 범위 차이</title>
+      <desc id="fig-entry-desc">같은 작업을 세 진입 경로가 각각 다루는 모습이다. 문맥 조회 경로는 직접 지정 입력, 상위 범위가 물려주는 문맥, 제한된 들어오는 관계를 모은다. 문서 작성 직전 경로는 여기에 상위 의도와 제품 정의를 더 얹는다. 독립 구현 검토 경로는 작업이 직접 선언한 필수 입력만 쓴다. 세 경로 모두 오른쪽 끝에서 본문이 아니라 경로와 절 힌트만 돌려주며, 그 지점이 이번 제안이 바꾸려는 공통 지점이다.</desc>
+
+      <text x="0" y="14" font-size="11.5" fill="#6b6862">같은 작업 · 진입 경로별로 모으는 근거</text>
+
+      <rect x="0.5" y="28.5" width="470" height="40" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="14" y="47" font-size="12.5" font-weight="600" fill="#37352f">문맥 조회 경로</text>
+      <text x="14" y="62" font-size="11.5" fill="#6b6862">직접 지정 입력 · 상위 범위 문맥 · 제한된 들어오는 관계</text>
+
+      <rect x="0.5" y="80.5" width="560" height="40" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="14" y="99" font-size="12.5" font-weight="600" fill="#37352f">문서 작성 직전 경로</text>
+      <text x="14" y="114" font-size="11.5" fill="#6b6862">위와 같음 + 상위 의도 · 제품 정의</text>
+
+      <rect x="0.5" y="132.5" width="300" height="40" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="14" y="151" font-size="12.5" font-weight="600" fill="#37352f">독립 구현 검토 경로</text>
+      <text x="14" y="166" font-size="11.5" fill="#6b6862">직접 선언한 필수 입력만</text>
+
+      <line x1="600" y1="24" x2="600" y2="178" stroke="#b3352b" stroke-width="1.2" stroke-dasharray="4 3"/>
+      <text x="614" y="90" font-size="12" font-weight="600" fill="#b3352b">공통 지점:</text>
+      <text x="614" y="107" font-size="12" font-weight="600" fill="#b3352b">본문 대신</text>
+      <text x="614" y="124" font-size="12" font-weight="600" fill="#b3352b">힌트만 반환</text>
+
+      <text x="0" y="198" font-size="11.5" fill="#6b6862">막대 길이는 그 경로가 모으는 근거의 범위다. 범위는 서로 다르지만 반환값에 본문이 없다는 점은 같다.</text>
+    </svg>
+    <figcaption>이번 제안이 겨냥하는 것은 경로별 범위 차이 자체가 아니라, 세 경로가 공통으로 본문을 돌려주지 않는다는 점이다.</figcaption>
+  </figure>
+
+  <p id="gap-limit">이 제안은 그 단절만 다룬다. <strong>문서를 열지 않은 것이 모든 의도 실패의 원인이라고 단정하지 않는다.</strong> 문서를 읽은 뒤에도 기존 정책을 결과에 쓰지 않은 사례가 따로 있고, 그것은 원문 전달로 해결되지 않는다.</p>
+  <p id="entry-contract">세션 시작 안내가 경로와 절 힌트만 제한된 개수·길이로 주고 본문을 주지 않는 것, 작업이 여럿이면 목록과 재조회를 안내하는 것은 <strong>의도된 경량 진입 계약이며 결함이 아니다.</strong> 이번 변경 대상은 그 안내가 아니라, 기존 작업 준비·조회·입력 생성 경로가 실제 원문 읽기로 이어지도록 연결하는 것이다.</p>
+</section>
+
+<section id="direction">
+  <h2 id="해결-방향-준비-경로가-직접-원문을-읽는다">해결 방향: 준비 경로가 직접 원문을 읽는다</h2>
+  <p id="integration-why">새 읽기 명령을 하나 더 만들거나 "이 문서를 읽으라"는 지시를 더하는 것으로는 부족하다. 그것은 에이전트에게 <strong>추가 행동</strong>을 요구하는 방식이고, 에이전트는 그 행동을 빠뜨릴 수 있다. 대신 지금 작업 준비·조회·작성 입력 생성에 쓰는 경로 자체가 원문 읽기를 수행하고, 그 반환값에 의미 본문을 포함하도록 바꾼다.</p>
+
+  <figure id="fig-flow">
+    <svg viewBox="0 0 760 300" role="img" aria-labelledby="fig-flow-title fig-flow-desc" preserveAspectRatio="xMidYMid meet">
+      <title id="fig-flow-title">같은 행동 흐름에서 원문 읽기가 추가되는 지점</title>
+      <desc id="fig-flow-desc">가로축은 작업 확인, 근거 준비, 작업 입력, 수행이라는 네 개의 같은 행동 단계다. 위쪽 현재 흐름에서 근거 준비 단계는 경로와 절 힌트 또는 일부 입력만 확보하고, 원문 읽기는 에이전트의 별도 행동에 맡겨져 점선으로 위로 빠져나간다. 그 추가 읽기를 빠뜨리면 본문이 누락된 입력으로 수행까지 이어질 수 있다. 아래쪽 개선 흐름에서는 같은 근거 준비 단계 안에서 준비 코드가 관련 문서를 선정하고 의미 본문을 읽는 호출을 수행하며, 그 본문이 작성과 구현과 검토 입력에 포함된 채 수행으로 전달된다. 네 단계 자체는 두 흐름에서 같고 달라지는 곳은 근거 준비 한 곳이다.</desc>
+      <defs>
+        <marker id="ff-solid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#5a5751"/>
+        </marker>
+        <marker id="ff-add" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#2f6ba3"/>
+        </marker>
+        <marker id="ff-gap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#b3352b"/>
+        </marker>
+      </defs>
+
+      <text x="98" y="24" font-size="12.5" font-weight="600" fill="#37352f" text-anchor="middle">작업 확인</text>
+      <text x="288" y="24" font-size="12.5" font-weight="600" fill="#37352f" text-anchor="middle">근거 준비</text>
+      <text x="478" y="24" font-size="12.5" font-weight="600" fill="#37352f" text-anchor="middle">작업 입력</text>
+      <text x="668" y="24" font-size="12.5" font-weight="600" fill="#37352f" text-anchor="middle">수행</text>
+      <line x1="0" y1="34" x2="760" y2="34" stroke="#e9e9e7"/>
+
+      <text x="0" y="60" font-size="12" font-weight="600" fill="#b3352b">현재</text>
+      <path d="M288 70 L288 92" stroke="#b3352b" stroke-width="1.2" stroke-dasharray="4 3" marker-start="url(#ff-gap)"/>
+      <text x="304" y="66" font-size="11.5" fill="#b3352b">원문 읽기가 에이전트의 별도 행동에 맡겨져 빠질 수 있다</text>
+
+      <rect x="20.5" y="94.5" width="156" height="46" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="98" y="122" font-size="12" fill="#37352f" text-anchor="middle">인수한 작업 확인</text>
+
+      <rect x="210.5" y="94.5" width="156" height="46" fill="#ffffff" stroke="#b3352b"/>
+      <text x="288" y="116" font-size="12" fill="#37352f" text-anchor="middle">경로·절 힌트 또는</text>
+      <text x="288" y="132" font-size="12" fill="#37352f" text-anchor="middle">일부 입력만 확보</text>
+
+      <rect x="400.5" y="94.5" width="156" height="46" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="478" y="116" font-size="12" fill="#37352f" text-anchor="middle">본문이 빠질 수</text>
+      <text x="478" y="132" font-size="12" fill="#37352f" text-anchor="middle">있는 입력</text>
+
+      <rect x="590.5" y="94.5" width="150" height="46" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="665" y="116" font-size="12" fill="#37352f" text-anchor="middle">근거가 누락된 채</text>
+      <text x="665" y="132" font-size="12" fill="#37352f" text-anchor="middle">작업할 수 있음</text>
+
+      <path d="M177 117 L206 117" stroke="#5a5751" stroke-width="1.2" marker-end="url(#ff-solid)"/>
+      <path d="M367 117 L396 117" stroke="#5a5751" stroke-width="1.2" marker-end="url(#ff-solid)"/>
+      <path d="M557 117 L586 117" stroke="#5a5751" stroke-width="1.2" marker-end="url(#ff-solid)"/>
+
+      <line x1="0" y1="162" x2="760" y2="162" stroke="#e9e9e7"/>
+
+      <text x="0" y="190" font-size="12" font-weight="600" fill="#2f6ba3">개선</text>
+      <rect x="20.5" y="200.5" width="156" height="60" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="98" y="235" font-size="12" fill="#37352f" text-anchor="middle">인수한 작업 확인</text>
+
+      <rect x="210.5" y="200.5" width="156" height="60" fill="#ffffff" stroke="#2f6ba3" stroke-width="1.4"/>
+      <text x="288" y="223" font-size="12" fill="#37352f" text-anchor="middle">관련 문서 선정</text>
+      <text x="288" y="241" font-size="12" font-weight="600" fill="#2f6ba3" text-anchor="middle">의미 본문 읽기</text>
+      <text x="288" y="256" font-size="11" fill="#6b6862" text-anchor="middle">준비 코드가 호출</text>
+
+      <rect x="400.5" y="200.5" width="156" height="60" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="478" y="226" font-size="12" fill="#37352f" text-anchor="middle">본문을 포함한</text>
+      <text x="478" y="244" font-size="12" fill="#37352f" text-anchor="middle">작성·구현·검토 입력</text>
+
+      <rect x="590.5" y="200.5" width="150" height="60" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="665" y="235" font-size="12" fill="#37352f" text-anchor="middle">그 근거로 작업</text>
+
+      <path d="M177 230 L206 230" stroke="#5a5751" stroke-width="1.2" marker-end="url(#ff-solid)"/>
+      <path d="M367 230 L396 230" stroke="#2f6ba3" stroke-width="1.4" marker-end="url(#ff-add)"/>
+      <path d="M557 230 L586 230" stroke="#2f6ba3" stroke-width="1.4" marker-end="url(#ff-add)"/>
+      <text x="382" y="286" font-size="11.5" font-weight="600" fill="#2f6ba3" text-anchor="middle">달라지는 곳은 근거 준비 한 곳이다 — 에이전트에게 새 행동을 요구하지 않는다</text>
+    </svg>
+    <figcaption>붉은 점선은 추가 읽기 행동에 맡겨져 빠질 수 있는 자리, 파란 실선은 준비 경로가 직접 원문을 읽어 본문을 넘기는 자리다. 여러 진입 경로의 코드를 하나로 합치는 것이 이 제안의 효과가 아니다.</figcaption>
+  </figure>
+</section>
+
+<section id="options">
+  <h2 id="원문을-어느-실행-지점에서-작업-입력에-넣는가">원문을 어느 실행 지점에서 작업 입력에 넣는가</h2>
+  <p id="options-frame">비교 질문은 하나다. <strong>원문을 어느 실행 지점에서 작업 입력에 넣을 것인가.</strong> 두 안 모두 선정한 문서의 의미 본문 전체를 전달하고, 두 안 모두 에이전트에게 별도 읽기 행동을 요구하지 않는다. 충실도가 다른 구현이 아니라 삽입 지점이 다른 선택지다.</p>
+
+  <figure id="fig-options">
+    <svg viewBox="0 0 760 200" role="img" aria-labelledby="fig-opt-title fig-opt-desc" preserveAspectRatio="xMidYMid meet">
+      <title id="fig-opt-title">두 안이 원문을 끼워 넣는 실행 지점</title>
+      <desc id="fig-opt-desc">하나의 실행선 위에 작업 확정·전환 이벤트, 작업 준비·입력 생성, 작업 입력, 수행이 차례로 놓인다. A안은 이벤트 지점에서 원문을 끼워 넣고, B안은 작업 준비·입력 생성 지점에서 끼워 넣는다. 두 지점 모두 같은 실행선 위에 있고 전달하는 내용은 의미 본문 전체로 같다. A안 아래에는 런타임마다 이벤트 지원과 작업 식별이 다르다는 조건이, B안 아래에는 준비 경로를 건너뛰는 실행에는 적용되지 않는다는 조건이 붙는다.</desc>
+      <defs>
+        <marker id="op-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#5a5751"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="14" font-size="11.5" fill="#6b6862">하나의 실행선 · 삽입 지점만 다르다</text>
+
+      <line x1="10" y1="86" x2="750" y2="86" stroke="#d3d1cb" stroke-width="1.2" marker-end="url(#op-arrow)"/>
+
+      <rect x="30.5" y="66.5" width="170" height="40" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="115" y="91" font-size="12" fill="#37352f" text-anchor="middle">작업 확정·전환 이벤트</text>
+
+      <rect x="250.5" y="66.5" width="180" height="40" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="340" y="91" font-size="12" fill="#37352f" text-anchor="middle">작업 준비·입력 생성</text>
+
+      <rect x="480.5" y="66.5" width="120" height="40" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="540" y="91" font-size="12" fill="#37352f" text-anchor="middle">작업 입력</text>
+
+      <rect x="640.5" y="66.5" width="90" height="40" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="685" y="91" font-size="12" fill="#37352f" text-anchor="middle">수행</text>
+
+      <text x="115" y="46" font-size="12.5" font-weight="600" fill="#6b6862" text-anchor="middle">A: 여기서 삽입</text>
+      <path d="M115 50 L115 64" stroke="#6b6862" stroke-width="1.2"/>
+      <text x="340" y="46" font-size="12.5" font-weight="600" fill="#2f6ba3" text-anchor="middle">B: 여기서 삽입 (권고)</text>
+      <path d="M340 50 L340 64" stroke="#2f6ba3" stroke-width="1.6"/>
+
+      <text x="115" y="132" font-size="11.5" fill="#6b6862" text-anchor="middle">런타임마다 이벤트 지원과</text>
+      <text x="115" y="148" font-size="11.5" fill="#6b6862" text-anchor="middle">작업 식별이 다르다</text>
+
+      <text x="340" y="132" font-size="11.5" fill="#2f6ba3" text-anchor="middle">준비 경로를 건너뛰는</text>
+      <text x="340" y="148" font-size="11.5" fill="#2f6ba3" text-anchor="middle">실행에는 적용되지 않는다</text>
+
+      <line x1="0" y1="168" x2="760" y2="168" stroke="#e9e9e7"/>
+      <text x="0" y="188" font-size="11.5" fill="#6b6862">두 안 모두 의미 본문 전체를 전달하고, 에이전트에게 별도 읽기 행동을 요구하지 않는다.</text>
+    </svg>
+    <figcaption>차이는 전달의 충실도가 아니라 어느 지점에서 본문이 입력에 들어가는가, 그리고 그 지점이 언제 존재하는가다.</figcaption>
+  </figure>
+
+  <table id="tbl-options">
+    <thead>
+      <tr><th scope="col" class="axis">비교 축</th><th scope="col">A. 작업 확정·전환 이벤트에서 자동 전달</th><th scope="col" class="rec">B. 작업 준비·입력 생성에 원문 읽기 결합 <span class="tag">권고</span></th></tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row">전달 시점</th><td>작업이 확정되거나 전환되는 이벤트 직후</td><td>작업 범위가 확인된 준비·입력 생성 시점</td></tr>
+      <tr><th scope="row">에이전트의 추가 행동</th><td>없음</td><td>없음</td></tr>
+      <tr><th scope="row">장점</th><td>지원되는 이벤트가 발생하면 일관되게 전달하기 쉽다</td><td>읽은 본문을 실제 입력 구성에 그대로 연결하기 쉽다</td></tr>
+      <tr><th scope="row">감수할 점</th><td>런타임마다 이벤트 지원과 작업 식별이 다르고, 불필요한 재주입을 따로 관리해야 한다</td><td>준비 경로를 건너뛰는 실행에는 적용되지 않으며, 실제로 쓰이는 진입점들을 모두 연결해야 한다</td></tr>
+      <tr><th scope="row">유리한 조건</th><td>작업 경계가 명확하고 이벤트를 안정적으로 제어하는 환경</td><td>여러 실행 환경에서 기존 준비·작성 경로를 재사용하는 환경</td></tr>
+    </tbody>
+  </table>
+
+  <p id="options-choice"><strong>권고는 B다.</strong> 이미 있는 원문 추출 기능을 재사용해, 지금까지 힌트만 돌려주던 준비 결과가 본문을 포함하도록 연결할 수 있기 때문이다. 중요한 것은 새 읽기 명령을 제공하는 데서 멈추지 않고 <strong>기존 준비·입력 생성 코드가 읽기를 수행한다</strong>는 점이다. 그 대가로 실제로 쓰이는 진입점들을 하나씩 연결하는 작업이 필요하고, 이 경로를 거치지 않는 임의 실행까지는 보장하지 않는다.</p>
+</section>
+
+<section id="selection">
+  <h2 id="에이전트에게-전달할-문서와-내용">에이전트에게 전달할 문서와 내용</h2>
+  <p id="selection-sub">전달 방식을 정한 다음에 오는 <strong>하위 설계 질문</strong>이다. 기본 대상은 작업의 직접 계약·목표·완료 조건, 그리고 선언된 관계로 연결된 상위 목적과 적용 제약이다. 유지보수 작업에서는 해당 영역의 현재 계약을 기준으로 삼는다.</p>
+  <table id="tbl-selection">
+    <thead><tr><th scope="col" class="axis">선정 방식</th><th scope="col">좋은 점</th><th scope="col">부담</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">작업별 목록 확정</th><td>입력이 고정된다</td><td>작업마다 목록을 갱신해야 한다</td></tr>
+      <tr><th scope="row">선언된 관계 따라가기</th><td>공유된 관계를 재사용한다</td><td>빠진 관계는 스스로 발견하지 못한다</td></tr>
+      <tr><th scope="row">검색·관련성 판단</th><td>등록되지 않은 근거를 찾는 데 유리하다</td><td>누락과 결과 변동을 별도로 다뤄야 한다</td></tr>
+    </tbody>
+  </table>
+  <p id="selection-choice">현재 방향은 <strong>직접 입력과 선언된 관계를 기본</strong>으로 하고, 빠진 관계의 발견은 작업 준비 단계의 판단으로 보완하는 것이다. 검색으로 나온 후보는 그 자체가 승인 근거가 되지 않으며, 실제 기존 권한과 현재 계약을 확인한다.</p>
+
+  <h3 id="full-text-head">전달하는 내용: 의미 본문 전체</h3>
+  <p id="full-text-body">선정된 문서는 <strong>의미 본문 전체</strong>를 전달한다. 다음 그림이 무엇이 읽히고 무엇이 빠지는지, 그리고 무엇이 아직 기본안 밖인지를 함께 보여 준다.</p>
+
+  <figure id="fig-extract">
+    <svg viewBox="0 0 760 246" role="img" aria-labelledby="fig-ext-title fig-ext-desc" preserveAspectRatio="xMidYMid meet">
+      <title id="fig-ext-title">문서에서 읽는 것, 빼는 것, 기본안 밖에 두는 것</title>
+      <desc id="fig-ext-desc">왼쪽 HTML 문서에서 기존 추출 기능이 의미 본문을 읽는다. 읽는 대상은 본문과 표와 코드와 그림 설명이고, 제외하는 대상은 CSS와 런타임 장식이다. 오른쪽에는 그 결과인 의미 본문 전체가 작업 입력에 담긴다. 아래쪽 별도 구획에는 기본안에 포함하지 않는 것들이 놓인다. 어떤 절이 필요한지 고르는 단계, 절별 분할과 다음에 읽을 위치, 필수 절 수신 완료 판정, 절별 캐시이며, 이것들은 실제 전달 한계 사례를 확인한 뒤 별도로 검토한다.</desc>
+      <defs>
+        <marker id="ex-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#2f6ba3"/>
+        </marker>
+      </defs>
+
+      <rect x="0.5" y="24.5" width="180" height="104" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="90" y="52" font-size="12.5" font-weight="600" fill="#37352f" text-anchor="middle">선정된 문서</text>
+      <text x="90" y="74" font-size="11.5" fill="#6b6862" text-anchor="middle">HTML 원문</text>
+
+      <rect x="250.5" y="24.5" width="230" height="104" fill="#ffffff" stroke="#2f6ba3" stroke-width="1.4"/>
+      <text x="365" y="50" font-size="12.5" font-weight="600" fill="#2f6ba3" text-anchor="middle">기존 의미 추출 기능</text>
+      <text x="365" y="76" font-size="11.5" fill="#37352f" text-anchor="middle">읽음: 본문 · 표 · 코드 · 그림 설명</text>
+      <text x="365" y="98" font-size="11.5" fill="#b3352b" text-anchor="middle">제외: CSS · 런타임 장식</text>
+
+      <rect x="550.5" y="24.5" width="209" height="104" fill="#ffffff" stroke="#d3d1cb"/>
+      <text x="655" y="52" font-size="12.5" font-weight="600" fill="#37352f" text-anchor="middle">작업 입력에 담기는</text>
+      <text x="655" y="72" font-size="12.5" font-weight="600" fill="#37352f" text-anchor="middle">의미 본문 전체</text>
+      <text x="655" y="98" font-size="11.5" fill="#6b6862" text-anchor="middle">문서 단위로 다룬다</text>
+
+      <path d="M182 76 L246 76" stroke="#2f6ba3" stroke-width="1.4" marker-end="url(#ex-arrow)"/>
+      <path d="M482 76 L546 76" stroke="#2f6ba3" stroke-width="1.4" marker-end="url(#ex-arrow)"/>
+
+      <line x1="0" y1="152" x2="760" y2="152" stroke="#e9e9e7"/>
+      <text x="0" y="176" font-size="12.5" font-weight="600" fill="#6b6862">기본안 밖 — 실제 전달 한계 사례를 확인한 뒤 별도로 검토</text>
+
+      <rect x="0.5" y="188.5" width="182" height="44" fill="#ffffff" stroke="#d3d1cb" stroke-dasharray="4 3"/>
+      <text x="91" y="207" font-size="11.5" fill="#6b6862" text-anchor="middle">필요한 절을</text>
+      <text x="91" y="223" font-size="11.5" fill="#6b6862" text-anchor="middle">고르는 단계</text>
+
+      <rect x="194.5" y="188.5" width="182" height="44" fill="#ffffff" stroke="#d3d1cb" stroke-dasharray="4 3"/>
+      <text x="285" y="207" font-size="11.5" fill="#6b6862" text-anchor="middle">절별 분할과</text>
+      <text x="285" y="223" font-size="11.5" fill="#6b6862" text-anchor="middle">다음에 읽을 위치</text>
+
+      <rect x="388.5" y="188.5" width="182" height="44" fill="#ffffff" stroke="#d3d1cb" stroke-dasharray="4 3"/>
+      <text x="479" y="207" font-size="11.5" fill="#6b6862" text-anchor="middle">필수 절 수신</text>
+      <text x="479" y="223" font-size="11.5" fill="#6b6862" text-anchor="middle">완료 판정</text>
+
+      <rect x="582.5" y="188.5" width="177" height="44" fill="#ffffff" stroke="#d3d1cb" stroke-dasharray="4 3"/>
+      <text x="671" y="215" font-size="11.5" fill="#6b6862" text-anchor="middle">절별 캐시</text>
+    </svg>
+    <figcaption>실선 구획이 기본안이 하는 일이고, 점선 구획은 지금 채택하지 않고 남겨 둔 설계다.</figcaption>
+  </figure>
+
+  <p id="full-text-excluded">즉 기본안은 <strong>전체 의미 본문을 먼저 전달하고 문서 단위 반복 읽기를 다룬다.</strong> 절 선별과 분할을 지금 넣지 않는 이유는 그것이 불필요해서가 아니라, 실제 전달 한계 사례를 확인하기 전에는 어떤 기준으로 나눌지 정할 근거가 없기 때문이다.</p>
+</section>
+
+<section id="lifecycle">
+  <h2 id="원문-전달-시점과-재개-처리">원문 전달 시점과 재개 처리</h2>
+  <p id="lifecycle-intro">앞의 선택이 실제로 적용되는 방식은 순서대로 지나가는 단계가 아니라 <strong>상황에 따라 갈라지는 동작</strong>이다. 준비 경로가 호출될 때마다 지금이 어떤 상황인지에 따라 다음 그림처럼 동작이 달라진다.</p>
+
+  <figure id="fig-situations">
+    <svg viewBox="0 0 760 268" role="img" aria-labelledby="fig-sit-title fig-sit-desc" preserveAspectRatio="xMidYMid meet">
+      <title id="fig-sit-title">준비 경로가 호출될 때 상황별로 갈라지는 동작</title>
+      <desc id="fig-sit-desc">왼쪽에 작업 준비 경로 호출이 있고 거기서 네 갈래가 오른쪽으로 갈라진다. 처음 작업을 준비하는 상황이면 관련 문서를 선정하고 의미 본문을 읽어 입력에 포함한다. 다른 작업으로 전환한 상황이면 새 작업을 기준으로 문서를 다시 선정한다. 새 세션이거나 압축 뒤 재개한 상황이면 이전 본문이 문맥에 남아 있다고 가정하지 않고 다시 읽는다. 같은 작업을 계속하는 상황이면 새로 읽는 대신 불필요한 반복 읽기가 실제로 생기는지 확인하고 줄인다. 앞의 세 갈래는 읽기로 이어지고 마지막 갈래만 읽기를 줄이는 방향이며, 네 갈래는 순서가 아니라 조건 분기다.</desc>
+      <defs>
+        <marker id="st-read" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#2f6ba3"/>
+        </marker>
+        <marker id="st-skip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#6b6862"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="14" font-size="11.5" fill="#6b6862">순서가 아니라 조건 분기 · 왼쪽 상황 → 오른쪽 동작</text>
+
+      <rect x="0.5" y="100.5" width="150" height="64" fill="#ffffff" stroke="#37352f"/>
+      <text x="75" y="127" font-size="12.5" font-weight="600" fill="#37352f" text-anchor="middle">작업 준비 경로</text>
+      <text x="75" y="147" font-size="12.5" font-weight="600" fill="#37352f" text-anchor="middle">호출</text>
+
+      <path d="M152 132 C 190 132, 190 52, 214 52" fill="none" stroke="#2f6ba3" stroke-width="1.3" marker-end="url(#st-read)"/>
+      <path d="M152 132 C 190 132, 190 104, 214 104" fill="none" stroke="#2f6ba3" stroke-width="1.3" marker-end="url(#st-read)"/>
+      <path d="M152 132 C 190 132, 190 160, 214 160" fill="none" stroke="#2f6ba3" stroke-width="1.3" marker-end="url(#st-read)"/>
+      <path d="M152 132 C 190 132, 190 218, 214 218" fill="none" stroke="#6b6862" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#st-skip)"/>
+
+      <text x="222" y="42" font-size="12.5" font-weight="600" fill="#37352f">처음 작업을 준비함</text>
+      <text x="222" y="60" font-size="11.5" fill="#2f6ba3">→ 관련 문서를 선정하고 의미 본문을 읽어 입력에 포함</text>
+
+      <text x="222" y="94" font-size="12.5" font-weight="600" fill="#37352f">다른 작업으로 전환함</text>
+      <text x="222" y="112" font-size="11.5" fill="#2f6ba3">→ 새 작업을 기준으로 문서를 다시 선정</text>
+
+      <text x="222" y="150" font-size="12.5" font-weight="600" fill="#37352f">새 세션이거나 압축 뒤 재개함</text>
+      <text x="222" y="168" font-size="11.5" fill="#2f6ba3">→ 문맥에 남아 있다고 가정하지 않고 다시 읽음</text>
+
+      <text x="222" y="208" font-size="12.5" font-weight="600" fill="#37352f">같은 작업을 계속함</text>
+      <text x="222" y="226" font-size="11.5" fill="#6b6862">→ 반복 읽기가 실제로 생기는지 확인하고 줄임</text>
+
+      <line x1="214" y1="238" x2="760" y2="238" stroke="#e9e9e7"/>
+      <text x="222" y="258" font-size="11.5" fill="#6b6862">실선 세 갈래는 읽기로, 점선 한 갈래는 중복 줄이기로 이어진다.</text>
+    </svg>
+    <figcaption>같은 준비 경로가 매번 호출되지만, 지금이 어떤 상황인지에 따라 본문을 새로 읽을지 중복을 줄일지가 갈린다.</figcaption>
+  </figure>
+
+  <p id="lifecycle-dedupe">중복 제어는 <strong>문서 단위</strong>에서 시작한다. 절별 전달 상태나 복잡한 캐시를 먼저 도입하지 않는다. 언제 읽을지의 문제와 읽은 본문에서 어떤 절이 필요한지의 문제를 섞지 않는다. 또한 세션 시작 안내와 본문 읽기는 같은 행동이 아니다 — 안내는 힌트를 주고, 본문 읽기는 준비 경로가 수행한다.</p>
+</section>
+
+<section id="edges">
+  <h2 id="예외-처리">예외 처리</h2>
+  <p id="edges-frame">발생 빈도는 아직 측정하지 않았다. 관찰되지 않은 발생률을 만들지 않고 <strong>발생 조건과 영향</strong>으로만 분류한다.</p>
+  <table id="tbl-edges">
+    <thead><tr><th scope="col" class="num">#</th><th scope="col">발생 조건</th><th scope="col">영향</th><th scope="col">처리</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <th scope="row">진행할 작업을 식별하지 못함</th>
+        <td>작업 없는 설명 요청에서는 정상일 수 있다. 변경 작업에서는 잘못된 근거를 읽을 위험이 있다.</td>
+        <td>요청과 문서 후보를 좁힌다. 다른 작업을 임의로 인수하지 않는다.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <th scope="row">필요한 계약 관계가 등록되지 않음</th>
+        <td>새 데이터·처리 경로를 다룰 때 확인이 필요하고, 놓치면 계약 누락으로 이어진다.</td>
+        <td>계약 목록과 적용 범위를 대조해 후보를 찾고, 기존 권한에 따라 관계를 보완한다.</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <th scope="row">문서 부재 또는 판본 충돌</th>
+        <td>잘못된 기준으로 변경할 수 있어 영향이 크다.</td>
+        <td>제공하지 못한 근거를 알리고 그 근거에 의존하는 변경을 보류한다. 무관한 읽기까지 중단하지 않고, 기존 원문과 사용자 판정은 보존한다.</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <th scope="row">의미 본문 전체가 전달 한계를 초과</th>
+        <td>실제 크기를 먼저 확인해야 한다.</td>
+        <td><strong>조용히 잘라 완료로 처리하지 않고</strong> 초과 사실을 알린다. 분할이나 별도 전달 방식은 실제 사례를 근거로 후속 설계하며, 임의의 수치 한도를 만들지 않는다.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="limits">
+  <h2 id="한계와-개선-효과-확인">한계와 개선 효과 확인</h2>
+  <p id="limit-claim"><strong>한계:</strong> 원문을 전달한다고 해서 에이전트가 의도를 이해하고 적용하는 것이 보장되지는 않는다. 전달의 효과와 이해·적용의 효과는 별개이며, 이 제안이 직접 관찰할 수 있는 것은 앞쪽이다.</p>
+
+  <figure id="fig-verify">
+    <svg viewBox="0 0 760 216" role="img" aria-labelledby="fig-ver-title fig-ver-desc" preserveAspectRatio="xMidYMid meet">
+      <title id="fig-ver-title">전달을 확인하는 항목과 전달 뒤에 남는 문제의 구분</title>
+      <desc id="fig-ver-desc">왼쪽 구획은 이 제안이 직접 확인하는 네 가지다. 누락됐던 의도와 계약 본문이 실제 입력에 포함되는지, 추가 읽기 행동 없이 준비 경로가 본문을 제공하는지, 작업 전환과 재개 때 올바른 문서를 읽는지, 불필요한 반복 전달이 얼마나 생기는지다. 오른쪽 구획은 다섯 번째 확인으로, 본문을 제공한 뒤에도 의도와 계약 위반이 남는지를 본다. 두 구획을 잇는 화살표 위에는, 그 문제가 남을 때 정보를 계속 늘리는 대신 해석과 적용과 검토 과정의 문제로 구분한다는 처리가 적혀 있다.</desc>
+      <defs>
+        <marker id="vf-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#5a5751"/>
+        </marker>
+      </defs>
+
+      <rect x="0.5" y="24.5" width="390" height="150" fill="#ffffff" stroke="#2f6ba3" stroke-width="1.4"/>
+      <text x="16" y="48" font-size="12.5" font-weight="600" fill="#2f6ba3">전달이 실제로 되는지 — 이 제안이 확인한다</text>
+      <text x="16" y="76" font-size="11.5" fill="#37352f">1. 누락됐던 의도·계약 본문이 입력에 포함되는가</text>
+      <text x="16" y="98" font-size="11.5" fill="#37352f">2. 추가 읽기 행동 없이 준비 경로가 본문을 주는가</text>
+      <text x="16" y="120" font-size="11.5" fill="#37352f">3. 전환·재개 때 올바른 문서를 읽는가</text>
+      <text x="16" y="142" font-size="11.5" fill="#37352f">4. 불필요한 반복 전달이 얼마나 생기는가</text>
+
+      <rect x="470.5" y="24.5" width="289" height="150" fill="#ffffff" stroke="#6b6862" stroke-width="1.4" stroke-dasharray="4 3"/>
+      <text x="486" y="48" font-size="12.5" font-weight="600" fill="#6b6862">전달 뒤에도 남는 것</text>
+      <text x="486" y="76" font-size="11.5" fill="#37352f">5. 본문을 준 뒤에도 의도·계약</text>
+      <text x="486" y="94" font-size="11.5" fill="#37352f">위반이 남는가</text>
+      <text x="486" y="124" font-size="11.5" fill="#6b6862">남는다면 정보를 더 늘리지 않고</text>
+      <text x="486" y="142" font-size="11.5" fill="#6b6862">해석·적용·검토 과정의 문제로 구분</text>
+
+      <path d="M394 99 L464 99" stroke="#5a5751" stroke-width="1.2" marker-end="url(#vf-arrow)"/>
+      <text x="429" y="90" font-size="11" fill="#6b6862" text-anchor="middle">전달이 됐어도</text>
+
+      <line x1="0" y1="190" x2="760" y2="190" stroke="#e9e9e7"/>
+      <text x="0" y="210" font-size="11.5" fill="#6b6862">왼쪽이 통과해도 오른쪽이 자동으로 해결되지는 않는다.</text>
+    </svg>
+    <figcaption>전달 여부는 이 설계로 관찰할 수 있고, 이해와 적용은 다른 문제로 남는다.</figcaption>
+  </figure>
+
+  <p id="limit-followup">정확한 명령 인자, 저장 형식, 중복 제어 상세, 전달 한계 대응은 후속 명세와 계획이 정한다.</p>
+</section>
+    </article>
+  </main>
+  <script id="concept-references" type="application/json">{
+  "concepts": []
+}</script>
+</body>
+</html>
